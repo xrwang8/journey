@@ -16,10 +16,10 @@ type Hello struct {
 	FuncFiled func()
 }
 
-var _ HelloServie = Hello{}
+var _ HelloServie = &Hello{}
 
-func (h Hello) SayHello(name string) (string, error) {
-	client := http.Client{}
+func (h *Hello) SayHello(name string) (string, error) {
+	client := &http.Client{}
 	resp, err := client.Get("http://127.0.0.1:8080")
 	if err != nil {
 		return "", err
@@ -65,7 +65,7 @@ func PrintFuncName(val interface{}) {
 
 func main() {
 	// 没有构造函数，直接使用结构体
-	helloService := Hello{endpoint: "127.0.0.1:8080"}
+	helloService := &Hello{endpoint: "127.0.0.1:8080"}
 	//resp, err := helloService.SayHello("golang")
 	//if err != nil {
 	//	fmt.Printf("err:%+v", err)
@@ -74,4 +74,5 @@ func main() {
 	//fmt.Printf("resp: %+v", resp)
 
 	PrintFuncName(helloService)
+
 }
