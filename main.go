@@ -36,27 +36,21 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 }
 
-// try reflect
+// try reflect set  field value
 func PrintFuncName(val interface{}) {
-	t := reflect.TypeOf(val)
-
+	// reflect pointer
 	v := reflect.ValueOf(val)
-
-	//numMethod := t.NumMethod()
-	//for i := 0; i < numMethod; i++ {
-	//	methodName := t.Method(i)
-	//
-	//
-	//	fmt.Println(methodName.Name)
-	//
-	//}
+	// Gets the struct represented by a pointer
+	elem := v.Elem()
+	// struct information
+	t := elem.Type()
 
 	field := t.NumField()
 	for i := 0; i < field; i++ {
 		fieldName := t.Field(i)
-		value := v.Field(i)
+		value := elem.Field(i)
 		if value.CanSet() {
-			fmt.Println("fieldName:", fieldName.Name, "value:", value)
+			fmt.Printf("%s Can be Set", fieldName.Name)
 		}
 
 	}
